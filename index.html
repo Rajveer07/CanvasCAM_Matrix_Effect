@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+    <canvas id="camCanvas"></canvas>
+    <script>
+        navigator.mediaDevices.getUserMedia({video:true})
+        .then(function(rawData){
+            const video = document.createElement("video");
+            video.srcObject = rawData;
+            video.play();
+            video.onloadeddata=function(){
+                const camCanvas = document.getElementById("camCanvas");
+                camCanvas.width=video.videoWidth;
+                camCanvas.height = video.videoHeight;
+
+                const matrixCanvas = document.getElementById("matrixCanvas");
+                matrixCanvas.width=video.videoWidth;
+                matrixCanvas.height = video.videoHeight;
+
+                const ste = new SeeThroughEffect(camCanvas,video,[10,100,200])
+               const me = new MatrixEffect(matrixCanvas,[10,100,200]);
+            }
+        }).catch(function(err){alert(err)});
+    </script>
+    <script src="see-through.js"></script>
+    <script src="matrix.js"></script>
+    <script src="utils.js"></script>
+</body>
+</html>
